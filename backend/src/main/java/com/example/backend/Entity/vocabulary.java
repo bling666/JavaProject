@@ -22,6 +22,10 @@ public class vocabulary {
     @Column(name="definition")
     private String definition;
 
+    @Column(name="translation")
+    private String translation;
+
+
     @Column(name="pos")
     private String pos;
 
@@ -89,6 +93,14 @@ public class vocabulary {
 
     public void setDefinition(String definition) {
         this.definition = definition;
+    }
+
+    public String getTranslation() {
+        return translation;
+    }
+
+    public void setTranslation(String translation) {
+        this.translation = translation;
     }
 
     public String getPos() {
