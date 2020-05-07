@@ -14,3 +14,7 @@ python wordsearch.py word(你想要查询的单词)
 
 result.csv
 根据words中的46万个单词，找到其中的约22万个单词释义
+
+
+api.py
+使用命令行 python api.py word(要搜索的单词）
