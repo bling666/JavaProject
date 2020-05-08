@@ -43,5 +43,30 @@ public class UserController {
         }
     }
 
+    @RequestMapping("signIn")
+    public baseResult<String> signIn(@RequestParam("username") String username,@RequestParam("password") String password)
+    {
+        try {
+            User user = userRepo.findByUsername(username);
+            if(user==null)
+            {
+                return resultUtil.error("您尚未注册");
+            }
+            if(user.getPassword()!=password)
+            {
+                return resultUtil.error("用户名或密码错误");
+            }
+            else
+            {
+                return resultUtil.success("登录成功");
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            return resultUtil.error(500,"在登录的时候发生了内部错误，真令人悲伤");
+        }
+    }
+
 
 }
