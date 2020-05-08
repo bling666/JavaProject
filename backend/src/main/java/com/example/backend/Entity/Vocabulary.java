@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="vocabulary")
-public class vocabulary {
+public class Vocabulary {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -53,7 +53,7 @@ public class vocabulary {
     @Column(name="audio")
     private String audio;
 
-    public vocabulary(){}
+    public Vocabulary(){}
 
     public Integer getId() {
         return id;

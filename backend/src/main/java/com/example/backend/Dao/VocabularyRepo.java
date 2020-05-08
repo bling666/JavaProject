@@ -1,12 +1,12 @@
-package com.example.backend.service;
+package com.example.backend.Dao;
 
-import com.example.backend.Entity.vocabulary;
+import com.example.backend.Entity.Vocabulary;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface vocabularyRepo extends JpaRepository<vocabulary,Integer> {
+public interface VocabularyRepo extends JpaRepository<Vocabulary,Integer> {
     @Query(value="select * from vocabulary where word like concat('%',?1,'%') ORDER BY " +
             "CASE " +
             "WHEN word=?1 THEN 1 " +
@@ -16,5 +16,7 @@ public interface vocabularyRepo extends JpaRepository<vocabulary,Integer> {
             "ELSE 5 " +
             "END " +
             "limit ?2 ;",nativeQuery=true)
-    List<vocabulary> findAllByWordLike(String word,Integer top);
+    List<Vocabulary> findAllByWordLike(String word, Integer top);
+
+    Vocabulary findOneByWord(String word);
 }
