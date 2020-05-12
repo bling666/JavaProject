@@ -52,7 +52,7 @@ public class UserController {
             {
                 return resultUtil.error("您尚未注册");
             }
-            if(user.getPassword()!=password)
+            if(!user.getPassword().equals(password))
             {
                 return resultUtil.error("用户名或密码错误");
             }

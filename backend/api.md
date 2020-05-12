@@ -34,7 +34,7 @@
 + 实例
 
   ```url
-  39.102.62.210//api/getoneword?keyword=apple
+  39.102.62.210/api/getoneword?keyword=apple
   ```
 
 #### response
@@ -65,6 +65,174 @@
     ]
 }
 ```
+
+## 上传单词
+
+### upload
+
+#### request
+
++ Method：Post
+
++ URL：/api/upload
+
++ 参数：Post参数体中text，能接受表单数据的输入，可以看一下能不能用表单的方式上传，不能再说
+
+  实例
+
+  ![image](img/upload.png)
+
+### response
+
+```json
+{
+    "code": 200,
+    "status": 1,
+    "msg": "success",
+    "data": [
+        "i",
+        "flower",
+        "sky"
+    ]
+}
+//这里会把成功加入计划的单词如数返回，但只会返回单词
+```
+
+## 计划相关
+
+### list 
+
+### request
+
+列出目前计划内的全部单词
+
++ Method：Get
++ URL：/api/list
++ 参数：无
++ 实例： 39.102.62.210/api/getoneword?keyword=apple
+
+### response
+
+```json
+{
+    "code": 200,
+    "status": 1,
+    "msg": "success",
+    "data": [
+        {
+            "id": 7,
+            "word": "I",
+            "uid": 1,
+            "wid": 340218,
+            "joined_time": "2020-05-08T05:02:07.000+0000",
+            "last_update": "2020-05-08T05:02:07.000+0000",
+            "stage": 0,
+            "errors": 0,
+            "recite_times": 0
+        },
+        {
+            "id": 8,
+            "word": "flower",
+            "uid": 1,
+            "wid": 266932,
+            "joined_time": "2020-05-08T05:02:07.000+0000",
+            "last_update": "2020-05-08T05:02:07.000+0000",
+            "stage": 0,
+            "errors": 0,
+            "recite_times": 0
+        }
+    ]
+}
+```
+
+
+
+### delete_word_in_plan
+
+#### request
+
++ method:Delete
++ URL：/api/delete_word_in_plan
++ 参数：word
++ 实例：39.102.62.210/api/delete_word_in_plan?word=apple
+
+#### response
+
+```json
+{
+
+  "code": 200,
+
+  "status": 1,
+
+  "msg": "success",
+
+  "data": "success"
+
+}
+```
+
+
+
+## 用户管理
+
+这一部分现在是最naive的方式，实现方法大概就是查数据库里的一张用户表，没啥意思，看看啥时候迅速的改一改
+
+### signUp
+
+注册
+
++ Method：Post
+
++ URL：/api/signUp
++ param
+  + username
+  + password
+
+#### response
+
+```json
+{
+    "code": 200,
+    "status": 0,
+    "msg": "用户名已存在",
+    "data": null
+}
+```
+
+成功时status为1，返回数据为sign up success
+
+### signIn
+
+注册
+
++ Method：Post
+
++ URL：/api/signIn
++ param
+  + username
+  + password
+
+#### response
+
+```json
+{
+    "code": 200,
+    "status": 1,
+    "msg": "success",
+    "data": "登录成功"
+}
+```
+
+
+
+
+
+
+
+
+
+
 
 
 
