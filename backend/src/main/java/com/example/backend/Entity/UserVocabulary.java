@@ -33,7 +33,12 @@ public class UserVocabulary {
 
     @Column(name="recite_times")
     private int recite_times;
-
+    
+    //********
+    @Column(name="frequency")
+    private int frequency;
+    //********
+    
     public Integer getId() {
         return id;
     }
@@ -105,4 +110,14 @@ public class UserVocabulary {
     public void setRecite_times(int recite_times) {
         this.recite_times = recite_times;
     }
+    
+    //*******
+    public int getFrequency() {
+    	return frequency;
+    }
+    
+    public void setFrequency(int frequency) {
+        this.frequency = frequency;
+    }
+    //*********
 }
