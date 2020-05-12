@@ -8,8 +8,8 @@
 同时，提供cal_Importance()函数用于计算单词的在此时背诵的估值，估值越高，越需要背诵
 
 # 思路说明
-重要度：p = f * alpha + diffstate * beta  
-f 为频率等级， diffstate为记忆阶段差  
+重要度：p = f * alpha + deltstate * beta  
+f 为频率等级， deltstate为记忆阶段差  
 alpha, beta 先取1  
 每次对所有单词进行重要度计算 O(n)  
 然后按照重要度排序 O(nlogn)  
