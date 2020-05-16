@@ -85,23 +85,45 @@ public class UserVocabularyController {
     {
         List<UserVocabulary> re = user_vocabulary_repo_api.findAllByUid(1);
         //TODO select the words in the plan to return and modify related params
-        TreeMap<String, Double> tempMap = new TreeMap<>();
-        for(UserVocabulary t : re) {
-        	tempMap.put(t.getWord(), Processor.cal_Importance(t));
-        }
-        List<Entry<String, Double>> list = new ArrayList<Entry<String, Double>>(tempMap.entrySet());
-
-        Collections.sort(list,new Comparator<Map.Entry<String,Double>>() {
-            //降序排序
-            public int compare(Entry<String, Double> o1, Entry<String, Double> o2) {
-                return o2.getValue().compareTo(o1.getValue());
-            }
-        });
-        //这里排好序之后，取前k个单词进行背诵
+        //感觉只是list一下，没必要排序，就把这部分去掉了
         user_vocabulary_repo_api.saveAll(re);
         return resultUtil.success(re);
     }
+    //******增加了一个api**********************
+    @RequestMapping("getonetask")
+    public baseResult<List<UserVocabulary>> get_one_task(Integer num)
+    {
+        List<UserVocabulary> re = user_vocabulary_repo_api.findAllByUid(1);
+        TreeMap<UserVocabulary, Double> tempMap = new TreeMap<>(); 
+        for(UserVocabulary t : re) {
+            if(t.getStage() < 9)
+        	    tempMap.put(t, Processor.cal_Importance(t));
+        }
+        if(tempMap.size() == 0){
+            return resultUtil.error(500,"There are no words in the list");
+        }
+        List<Entry<UserVocabulary, Double>> list = new ArrayList<Entry<UserVocabulary, Double>>(tempMap.entrySet());
 
+        Collections.sort(list,new Comparator<Map.Entry<UserVocabulary,Double>>() {
+            //降序排序
+            public int compare(Entry<UserVocabulary, Double> o1, Entry<UserVocabulary, Double> o2) {
+                return o2.getValue().compareTo(o1.getValue());
+            }
+        });
+        //这里排好序之后，取前num个单词进行背诵
+        re.clear();
+        String Msg = "success";
+        if(num > list.size())
+        {
+            Msg = "there ara only "+list.size()+" words in the list";
+        }
+        num = num < list.size()?num : list.size();
+        for(int i = 0;i < num;i++){
+            re.add(list.get(i).getKey());
+        }
+        return resultUtil.success(re, Msg);
+    }
+    //*****************************************
     @RequestMapping(value = "delete_word_in_plan",method = RequestMethod.DELETE)
     public baseResult<String> delete_word(@RequestParam("word") String word)
     {
