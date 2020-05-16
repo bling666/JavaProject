@@ -91,6 +91,7 @@ public class UserVocabularyController {
     }
     //******增加了一个api**********************
     @RequestMapping("getonetask")
+    @ResponseBody
     public baseResult<List<UserVocabulary>> get_one_task(Integer num)
     {
         List<UserVocabulary> re = user_vocabulary_repo_api.findAllByUid(1);
