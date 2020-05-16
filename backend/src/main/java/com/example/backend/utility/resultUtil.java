@@ -5,10 +5,14 @@ public class resultUtil {
         return commonResult(1, 200, "success", data);
     }
 
+    public static <T> baseResult<T> success(T data, String successMsg) {
+        return commonResult(1, 200, successMsg , data);
+    }
+    
     public static <T> baseResult<T> error(String errorMsg) {
         return error(200, errorMsg);
     }
-
+    
     public static <T> baseResult<T> error(Integer code, String errorMsg) {
         return commonResult(0, code, errorMsg, null);
     }
