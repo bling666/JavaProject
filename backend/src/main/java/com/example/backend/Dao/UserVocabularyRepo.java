@@ -16,4 +16,7 @@ public interface UserVocabularyRepo extends JpaRepository<UserVocabulary,Integer
 
     @Modifying
     void deleteByWord(String word);
+    
+    @Modifying
+    void updateByWord(Integer operator, String word);//operator = 1, success; operator = 0, failure;
 }
