@@ -145,7 +145,27 @@
 }
 ```
 
+### getonetask 
 
+### request
+
+获得用于背诵的num个单词
+
++ Method：Get
++ URL：/api/getonetask
++ 参数：num
++ 实例： 39.102.62.210/api/getonetask?num=20
+
+### recite 
+
+### request
+
+根据背诵情况修改数据,opetator = 0表示不认识，operator = 1表示认识
+
++ Method：Post
++ URL：/api/recite
++ 参数：operator, word
++ 实例： 39.102.62.210/api/recite?operator=1&word=apple
 
 ### delete_word_in_plan
 
