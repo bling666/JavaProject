@@ -66,7 +66,61 @@ public class UserVocabularyController {
         user_vocabulary_repo_api.saveAll(re);
         return resultUtil.success(re);
     }
+    //*****************two new APIs*******************************
+    @RequestMapping("getonetask")
+    @ResponseBody
+    public baseResult<List<UserVocabulary>> get_one_task(Integer num)
+    {
+        List<UserVocabulary> re = user_vocabulary_repo_api.findAllByUid(1);
+        TreeMap<UserVocabulary, Double> tempMap = new TreeMap<>(); 
+        for(UserVocabulary t : re) {
+            if(t.getStage() < 9)
+        	    tempMap.put(t, Processor.cal_Importance(t));
+        }
+        if(tempMap.size() == 0){
+            return resultUtil.error(500,"There are no words in the list");
+        }
+        List<Entry<UserVocabulary, Double>> list = new ArrayList<Entry<UserVocabulary, Double>>(tempMap.entrySet());
+        String Msg = "success";
+        if(num > list.size())
+        {
+            Msg = "there ara only "+list.size()+" words in the list";
+        }
+        if(num < list.size())
+        {
+            Collections.sort(list,new Comparator<Map.Entry<UserVocabulary,Double>>() {
+                //降序排序
+                public int compare(Entry<UserVocabulary, Double> o1, Entry<UserVocabulary, Double> o2) {
+                    return o2.getValue().compareTo(o1.getValue());
+                }
+            });
+        }
+        //这里排好序之后，取前num个单词进行背诵
+        re.clear();
+        num = num < list.size()?num : list.size();
+        for(int i = 0;i < num;i++){
+            re.add(list.get(i).getKey());
+        }
+        return resultUtil.success(re, Msg);
+    }
 
+    @RequestMapping(value = "recite", method = RequestMethod.POST)
+    public  baseResult<String> recite(@RequestParam("operator") Integer operator,@RequestParam("word") String word)
+    {
+        // op = 1 success, op = 0 failure
+        try{
+            UserVocabulary temp = user_vocabulary_repo_api.findByWord(word);
+            if(temp==null)
+                return resultUtil.error(500,"no such word in plan");
+            user_vocabulary_repo_api.updateByWord(operator , word);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return resultUtil.error(500,"error in reciting word");
+        }
+        return resultUtil.success("success");
+    }
+    //*******************************************************************************
     @RequestMapping(value = "delete_word_in_plan",method = RequestMethod.DELETE)
     public baseResult<String> delete_word(@RequestParam("word") String word)
     {
