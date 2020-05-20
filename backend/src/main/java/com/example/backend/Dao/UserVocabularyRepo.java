@@ -3,6 +3,7 @@ package com.example.backend.Dao;
 import com.example.backend.Entity.UserVocabulary;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -16,7 +17,4 @@ public interface UserVocabularyRepo extends JpaRepository<UserVocabulary,Integer
 
     @Modifying
     void deleteByWord(String word);
-    
-    @Modifying
-    void updateByWord(Integer operator, String word);//operator = 1, success; operator = 0, failure;
 }

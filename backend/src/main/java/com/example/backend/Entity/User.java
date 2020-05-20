@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class User {
     @Id
     @GeneratedValue
-    private int id;
+    private int uid;
 
     @Column(name="username",unique = true,length = 64)
     private String username;
@@ -18,12 +18,12 @@ public class User {
     @Column(name = "avatar")
     private String avatar;
 
-    public int getId() {
-        return id;
+    public int getUid() {
+        return uid;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUid(int uid) {
+        this.uid = uid;
     }
 
     public String getUsername() {

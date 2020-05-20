@@ -9,7 +9,7 @@ import com.example.backend.utility.baseResult;
 import com.example.backend.utility.resultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
+import java.util.Map.Entry;
 import java.io.IOException;
 import java.util.*;
 
@@ -34,13 +34,17 @@ public class UserVocabularyController {
                  Vocabulary temp = vocabularyrepo.findOneByWord(single_result);
                  if(temp !=null)
                  {
-                     UserVocabulary st = new UserVocabulary();
-                     st.setUid(1);
-                     st.setWord(temp.getWord());
-                     st.setWid(temp.getId());
-                     st.setJoined_time(new Date());
-                     st.setLast_update(new Date());
-                     user_vocabulary_repo_api.save(st);
+                     if(user_vocabulary_repo_api.findByWord(single_result)==null) {
+                         UserVocabulary st = new UserVocabulary();
+                         st.setUid(1);
+                         st.setWord(temp.getWord());
+                         st.setWid(temp.getId());
+                         st.setJoined_time(new Date());
+                         st.setLast_update(new Date());
+                         user_vocabulary_repo_api.save(st);
+                     }
+                     else
+                         System.out.printf("the word %s has exist",single_result);
                  }
                  else
                  {
@@ -108,11 +112,22 @@ public class UserVocabularyController {
     public  baseResult<String> recite(@RequestParam("operator") Integer operator,@RequestParam("word") String word)
     {
         // op = 1 success, op = 0 failure
-        try{
+        try {
             UserVocabulary temp = user_vocabulary_repo_api.findByWord(word);
-            if(temp==null)
-                return resultUtil.error(500,"no such word in plan");
-            user_vocabulary_repo_api.updateByWord(operator , word);
+            if (temp == null)
+                return resultUtil.error(500, "no such word in plan");
+            UserVocabulary tem = user_vocabulary_repo_api.findByWord(word);
+            if (operator == 0) {
+                tem.setErrors(tem.getErrors() + 1);
+                tem.setStage(tem.getStage() > 0 ? tem.getStage() - 1 : 0);
+            } else if (operator == 1) {//success
+                tem.setStage(tem.getStage() + 1);
+            } else {
+
+            }
+            tem.setLast_update(new Date());
+            tem.setRecite_times(tem.getRecite_times() + 1);
+            user_vocabulary_repo_api.save(tem);
         }
         catch(Exception e){
             e.printStackTrace();

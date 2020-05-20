@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 
 @RestController
 @RequestMapping("/api/user")
@@ -44,7 +47,7 @@ public class UserController {
     }
 
     @RequestMapping("signIn")
-    public baseResult<String> signIn(@RequestParam("username") String username,@RequestParam("password") String password)
+    public baseResult<String> signIn(HttpServletRequest request, @RequestParam("username") String username, @RequestParam("password") String password)
     {
         try {
             User user = userRepo.findByUsername(username);
@@ -58,6 +61,9 @@ public class UserController {
             }
             else
             {
+
+                request.getSession();
+                request.getSession().setAttribute("uid", user.getUid());
                 return resultUtil.success("登录成功");
             }
         }
@@ -66,7 +72,15 @@ public class UserController {
             e.printStackTrace();
             return resultUtil.error(500,"在登录的时候发生了内部错误，真令人悲伤");
         }
+
     }
 
+    @RequestMapping("logout")
+    public baseResult<String> logout(HttpServletRequest request, @RequestParam("username") String username, @RequestParam("password") String password)
+    {
+        HttpSession session = request.getSession();
+        System.out.println(session.getAttribute("uid"));
+        return resultUtil.success("test");
+    }
 
 }

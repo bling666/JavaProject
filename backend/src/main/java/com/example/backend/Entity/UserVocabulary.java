@@ -4,8 +4,8 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name="user_vocabulary")
-public class UserVocabulary {
+@Table(name="user_vocabulary", uniqueConstraints = {@UniqueConstraint(columnNames="word")})
+public class UserVocabulary implements Comparable<UserVocabulary>{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
@@ -120,4 +120,10 @@ public class UserVocabulary {
         this.frequency = frequency;
     }
     //*********
+
+    @Override
+    public int compareTo(UserVocabulary o) {
+        //根据帅气指数进行降序排序，若要进行升序在前面加一个负号
+        return (o.id - this.id);
+    }
 }
