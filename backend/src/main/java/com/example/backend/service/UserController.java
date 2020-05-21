@@ -76,11 +76,19 @@ public class UserController {
     }
 
     @RequestMapping("logout")
-    public baseResult<String> logout(HttpServletRequest request, @RequestParam("username") String username, @RequestParam("password") String password)
+    public baseResult<String> logout(HttpServletRequest request)
     {
         HttpSession session = request.getSession();
-        System.out.println(session.getAttribute("uid"));
-        return resultUtil.success("test");
+        try {
+            String uid = session.getAttribute("uid").toString();
+            System.out.println(uid);
+            session.invalidate();
+            return resultUtil.success("成功退出");
+        }
+        catch(Exception e)
+        {
+            return resultUtil.error("您似乎尚未登录");
+        }
     }
 
 }
