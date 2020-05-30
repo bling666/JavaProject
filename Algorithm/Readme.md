@@ -8,9 +8,9 @@
 同时，提供cal_Importance()函数用于计算单词的在此时背诵的估值，估值越高，越需要背诵
 
 # 思路说明
-重要度：p = f * alpha + deltstate * beta  
-f 为频率等级， deltstate为记忆阶段差  
-alpha, beta 先取1  
+重要度：p = f * alpha + deltstate * beta + errcnt * gamma + (len - 4.5)^2 * delta 
+f 为频率等级， deltstate为记忆阶段差, errcnt为出错次数, len为单词长度
+alpha, beta 先取1, gamma = 0.5, delta = 0.5   
 每次对所有单词进行重要度计算 O(n)  
 然后按照重要度排序 O(nlogn)  
 按照用户需求，取出排名前k个单词，一遍背会的单词，state += 1, 没有背会的单词，state -= 1, state >= 9时视为背会了  
