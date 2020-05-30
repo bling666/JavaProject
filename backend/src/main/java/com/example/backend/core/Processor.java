@@ -28,7 +28,7 @@ public class Processor{
     };
     public static String[] ReadAndToken(String raw) throws IOException{
         //读取停用词表
-        List<String> stopwords =  Files.readAllLines(Paths.get("D:/stopwords.txt"));
+        List<String> stopwords =  Files.readAllLines(Paths.get("/home/java20/stopwords.txt"));
         //读取文件
         List<String> tokenlist = new ArrayList<String>();
         TreeMap<String, Integer> countMap = new TreeMap<>();//用于去重和计数

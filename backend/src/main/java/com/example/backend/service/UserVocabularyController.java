@@ -73,7 +73,7 @@ public class UserVocabularyController {
     //*****************two new APIs*******************************
     @RequestMapping("getonetask")
     @ResponseBody
-    public baseResult<List<UserVocabulary>> get_one_task(Integer num)
+    public baseResult<List<Vocabulary>> get_one_task(Integer num)
     {
         List<UserVocabulary> re = user_vocabulary_repo_api.findAllByUid(1);
         TreeMap<UserVocabulary, Double> tempMap = new TreeMap<>(); 
@@ -105,7 +105,15 @@ public class UserVocabularyController {
         for(int i = 0;i < num;i++){
             re.add(list.get(i).getKey());
         }
-        return resultUtil.success(re, Msg);
+
+        List<Vocabulary> response_data = new ArrayList<>();
+        for(int i = 0;i<re.size();i++)
+        {
+            Vocabulary single_result = vocabularyrepo.findOneByWord(re.get(i).getWord());
+            response_data.add(single_result);
+        }
+
+        return resultUtil.success(response_data, Msg);
     }
 
     @RequestMapping(value = "recite", method = RequestMethod.POST)

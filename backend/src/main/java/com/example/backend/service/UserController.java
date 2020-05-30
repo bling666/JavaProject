@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
@@ -23,6 +22,7 @@ public class UserController {
     @RequestMapping(value = "signUp",method = RequestMethod.POST)
     public baseResult<String> SignUp(@RequestParam("username") String username,@RequestParam("password") String password)
     {
+        System.out.printf("sign up from %s %s\n",username,password);
         try{
             User user = userRepo.findByUsername(username);
             if(user!=null)
@@ -35,6 +35,7 @@ public class UserController {
                 User insert_user = new User();
                 insert_user.setUsername(username);
                 insert_user.setPassword(password);
+                insert_user.setAvatar("/home/java20/default.png");
                 userRepo.save(insert_user);
                 return resultUtil.success("sign up success");
             }
@@ -49,6 +50,7 @@ public class UserController {
     @RequestMapping("signIn")
     public baseResult<String> signIn(HttpServletRequest request, @RequestParam("username") String username, @RequestParam("password") String password)
     {
+        System.out.printf("sign in from %s %s\n",username,password);
         try {
             User user = userRepo.findByUsername(username);
             if(user==null)
@@ -78,14 +80,29 @@ public class UserController {
     @RequestMapping("logout")
     public baseResult<String> logout(HttpServletRequest request)
     {
+
         HttpSession session = request.getSession();
         try {
             String uid = session.getAttribute("uid").toString();
-            System.out.println(uid);
+            System.out.printf("logout from %s\n",uid);
             session.invalidate();
             return resultUtil.success("成功退出");
         }
         catch(Exception e)
+        {
+            return resultUtil.error("您似乎尚未登录");
+        }
+    }
+
+    @RequestMapping("personal")
+    public baseResult<User> personal_information(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        try {
+            int uid = Integer.parseInt(session.getAttribute("uid").toString());
+            User user = userRepo.getOne(uid);
+            System.out.println(user.getUsername());
+        return resultUtil.success(user, "这就是您的信息");
+        } catch (Exception e)
         {
             return resultUtil.error("您似乎尚未登录");
         }
