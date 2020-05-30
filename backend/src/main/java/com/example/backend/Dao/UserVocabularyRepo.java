@@ -12,9 +12,9 @@ import java.util.List;
 public interface UserVocabularyRepo extends JpaRepository<UserVocabulary,Integer> {
 
     List<UserVocabulary> findAllByUid(int id);
-
     UserVocabulary findByWord(String word);
+    UserVocabulary findByUidAndWord(int uid,String word);
 
     @Modifying
-    void deleteByWord(String word);
+    void deleteByIdAndWord(Integer uid,String word);
 }

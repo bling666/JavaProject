@@ -8,7 +8,10 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.Map.Entry;
 
+import com.example.backend.Dao.StopWordsRepo;
+import com.example.backend.Entity.StopWords;
 import com.example.backend.Entity.UserVocabulary;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,9 +29,12 @@ public class Processor{
             7*24*60,	// 7天
             15*24*60	// 15天
     };
-    public static String[] ReadAndToken(String raw) throws IOException{
+    public static String[] ReadAndToken(StopWordsRepo stopWordsRepo,String raw) throws IOException{
         //读取停用词表
-        List<String> stopwords =  Files.readAllLines(Paths.get("/home/java20/stopwords.txt"));
+        List<StopWords> stopWordsEntity = stopWordsRepo.findAll();
+        List<String> stopwords = new ArrayList<>();
+        for(int i = 0;i<stopWordsEntity.size();i++)
+            stopwords.add(stopWordsEntity.get(i).getWord());
         //读取文件
         List<String> tokenlist = new ArrayList<String>();
         TreeMap<String, Integer> countMap = new TreeMap<>();//用于去重和计数
