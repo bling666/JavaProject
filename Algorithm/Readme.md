@@ -10,12 +10,12 @@
 # 思路说明
 重要度：p = f * alpha + deltstate * beta + errcnt * gamma + (len - 9)(len) * delta 
 f 为频率等级， deltstate为记忆阶段差, errcnt为出错次数, len为单词长度
-alpha, beta 先取1, gamma = 0.5, delta = 0.1   
+alpha, beta 先取1, gamma = 0.5, delta = -0.1   
 该算法倾向于选出：  
 1.出现频率较高的单词  
 2.离上次背诵已有一段时间，时间差超过该背诵阶段应有的时间差的单词  
 3.出错次数较多的单词  
-4.长度接近4.5的单词（最后的(len - 9) * len * 0.1是一个以4.5为对称轴的二次函数） 
+4.长度接近4.5的单词（最后的(len - 9) * len * -0.1是一个以4.5为对称轴的二次函数） 
 
 每次对所有单词进行重要度计算 O(n)  
 然后按照重要度排序 O(nlogn)  
