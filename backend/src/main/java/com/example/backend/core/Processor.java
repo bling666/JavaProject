@@ -81,7 +81,7 @@ public class Processor{
     }
     //计算重要度
     public static double cal_Importance(UserVocabulary record) {
-		double alpha = 1.0, beta = 1.0, gamma = 0.5, delta = 0.1;
+		double alpha = 1.0, beta = 1.0, gamma = 0.5, delta = -0.1;
 		return alpha * record.getFrequency() + beta * DeltState(record) + gamma * record.getErrors() + delta * (record.getWord().length()) * (record.getWord().length() - 9);
     }
 }
